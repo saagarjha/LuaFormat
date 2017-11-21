@@ -70,7 +70,11 @@ class Line():
         r = ''
         for node in self._nodes:
             r += str(node)
-        return ' ' * _settings.get('tab_size') * self._indent + r.strip(' ')
+        if _settings.get('tab_size') < 0:
+            indent = '\t'
+        else:
+            indent = ' ' * _settings.get('tab_size')
+        return indent * self._indent + r.strip(' ')
 
     def add(self, node):
         self._nodes.append(node)
