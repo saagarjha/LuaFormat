@@ -293,8 +293,7 @@ def foreach_node():
             char_key = str(node)
             while True:
                 node = node.next
-                if char_key == str(node) and get_forward_char(node,
-                                                              2)[0] != '\\':
+                if char_key == str(node):
                     merge_prev_node(node)
                     break
                 if not node.next:
