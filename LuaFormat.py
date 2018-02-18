@@ -29,7 +29,8 @@ class LuaFormatCommand(sublime_plugin.TextCommand):
         # check whether the lua files
         suffix_setting = self.view.settings().get('syntax')
         file_suffix = suffix_setting.split('.')[0]
-        if file_suffix[-3:].lower() != 'lua': return
+        if file_suffix[-3:].lower() != 'lua':
+            return
 
         # get lines of replacement
         r = sublime.Region(0, self.view.size())

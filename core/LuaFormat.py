@@ -147,7 +147,7 @@ class Node():
             def inner(self):
                 try:
                     return getattr(self, "_" + attr)
-                except:
+                except AttributeError:
                     return None
 
             return inner
@@ -188,7 +188,8 @@ def insert_blank_node(node):
 
 
 def merge_prev_node(node):
-    if not node.last: return node
+    if not node.last:
+        return node
     lnode = node.last
     lnode.add(str(node))
 
@@ -205,9 +206,9 @@ def delete_node(node):
     if node.last and node.next:
         node.last.next = node.next
         node.next.last = node.last
-    elif node.next == None:
+    elif node.next is None:
         node.last.next = None
-    elif node.last == None:
+    elif node.last is None:
         node.next.last = None
     return node.next
 
@@ -234,9 +235,11 @@ def delete_backward_blank(node):
 def get_forward_char(node, count):
     r = ''
     while True:
-        if not node: return r[::-1]
+        if not node:
+            return r[::-1]
         r += str(node)[::-1]
-        if len(r) >= count: return r[::-1][-count:]
+        if len(r) >= count:
+            return r[::-1][-count:]
         node = node.last
 
 
@@ -250,7 +253,8 @@ def get_forward_type(node):
 def get_forward_type_for_negative(node):
     while True:
         node = node.last
-        if node is None: return None
+        if node is None:
+            return None
         if node.type != NodeType.BLANK:
             return node.type
 
@@ -279,7 +283,7 @@ def parse_node(content):
             node = create_node(c, ctype)
             continue
 
-        if ctype == node.type and not ctype in SingletonType:
+        if ctype == node.type and ctype not in SingletonType:
             node.add(c)
         else:
             node = create_node(c, ctype)
@@ -378,7 +382,7 @@ def foreach_operator():
             # negative number
             # 负号
             pntype = get_forward_type_for_negative(node)
-            if not pntype in [
+            if pntype not in [
                     NodeType.WORD, NodeType.REVERSE_BRACKET, NodeType.STRING
             ]:
                 delete_backward_blank(node)
